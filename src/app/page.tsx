@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -7,21 +6,41 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
       <Navbar />
 
-      <section className="px-5 py-8 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+      <section className="px-5 py-10 text-center">
+        <h1 className="text-4xl md:text-6xl font-bold mb-4 max-w-4xl mx-auto">
           The Fairway Called. You're Missing Out.
         </h1>
 
-        <p className="text-lg text-green-100 max-w-2xl mx-auto mb-10">
+        <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
           Tee times, events, promotions, tournaments, and course updates all in
           one place.
         </p>
 
+        <div className="flex flex-col md:flex-row justify-center gap-4 mb-12">
+          <Link
+            href="/feed"
+            className="bg-white text-green-950 px-8 py-4 rounded-xl font-semibold hover:bg-green-100 transition"
+          >
+            Explore Feed
+          </Link>
+
+          <Link
+            href="/register-course"
+            className="border border-green-300 px-8 py-4 rounded-xl font-semibold hover:bg-green-900 transition"
+          >
+            Register Your Course
+          </Link>
+        </div>
+
         {/* Feed Preview */}
         <div className="max-w-2xl mx-auto mb-12">
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="text-2xl font-bold mb-2">
             Live Feed Preview
           </h2>
+
+          <p className="text-green-300 text-sm mb-6">
+            4 Courses Active • 12 Updates This Week
+          </p>
 
           <div className="flex justify-center gap-3 mb-6">
             <button className="bg-white text-green-950 px-4 py-2 rounded-lg font-semibold">
@@ -69,20 +88,15 @@ export default function Home() {
                 Learn More →
               </button>
             </div>
+          </div>
 
-            <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
-              <div className="text-green-300 text-sm mb-1">
-                Purgatory Golf Club
-              </div>
-
-              <h3 className="font-semibold text-lg">
-                Aerification Scheduled Next Week
-              </h3>
-
-              <p className="text-green-100">
-                Greens will be aerified Monday and Tuesday.
-              </p>
-            </div>
+          <div className="mt-6">
+            <Link
+              href="/feed"
+              className="text-green-300 font-semibold hover:text-white transition"
+            >
+              View Full Feed →
+            </Link>
           </div>
         </div>
 

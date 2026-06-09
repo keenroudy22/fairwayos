@@ -1,38 +1,11 @@
+import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-4 py-4 md:px-8">
-        <Link href="/">
-          <Image
-            src="/FairwayOS-logo.png"
-            alt="FairwayOS"
-            width={180}
-            height={40}
-            className="h-auto w-auto"
-            priority
-          />
-        </Link>
-
-        <div className="flex gap-2">
-          <Link
-            href="/signin"
-            className="px-3 py-2 text-sm rounded-lg border border-green-300 hover:bg-green-900 transition"
-          >
-            Sign In
-          </Link>
-
-          <Link
-            href="/signup"
-            className="px-3 py-2 text-sm rounded-lg bg-white text-green-950 font-semibold hover:bg-green-100 transition"
-          >
-            Sign Up
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
       <section className="px-5 py-8 text-center">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">

@@ -1,7 +1,11 @@
+import Navbar from "@/components/Navbar";
 export default function RegisterCoursePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
-      <div className="max-w-2xl mx-auto px-4 py-10">
+    
+<main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
+  <Navbar />
+
+  <div className="max-w-2xl mx-auto px-4 py-10">
         <h1 className="text-4xl font-bold mb-3">
           Register Your Golf Course
         </h1>

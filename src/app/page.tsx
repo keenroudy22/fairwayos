@@ -34,53 +34,82 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero */}
       <section className="px-5 py-8 text-center">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Stay Connected to Your Favorite Golf Courses.
+          Stay Connected to Your Favorite Golf Courses
         </h1>
 
-        <p className="text-lg text-green-100 max-w-2xl mx-auto mb-8">
-          Get notified about tee times, events, course closures,
-          promotions, and tournament updates.
+        <p className="text-lg text-green-100 max-w-2xl mx-auto mb-10">
+          Tee times, events, promotions, tournaments, and course updates all in
+          one place.
         </p>
 
-        <div className="flex flex-col gap-3 max-w-sm mx-auto mb-10">
-          <Link
-            href="/signup"
-            className="bg-white text-green-950 py-4 rounded-xl font-semibold"
-          >
-            Get Started
-          </Link>
+        {/* Feed Preview */}
+        <div className="max-w-2xl mx-auto mb-12">
+          <h2 className="text-2xl font-bold mb-4">
+            Live Feed Preview
+          </h2>
 
-          <Link
-            href="/register-course"
-            className="border border-green-300 py-4 rounded-xl font-semibold"
-          >
-            Register Your Course
-          </Link>
-        </div>
+          <div className="flex justify-center gap-3 mb-6">
+            <button className="bg-white text-green-950 px-4 py-2 rounded-lg font-semibold">
+              Near Me
+            </button>
 
-        {/* Features */}
-        <div className="grid gap-3 max-w-md mx-auto mb-10">
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
-            ⛳ Tee Time Alerts
+            <button className="border border-green-300 px-4 py-2 rounded-lg">
+              Following
+            </button>
           </div>
 
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
-            🏆 Events & Outings
-          </div>
+          <div className="space-y-4 text-left">
+            <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
+              <div className="text-green-300 text-sm mb-1">
+                Sagamore Golf Club
+              </div>
 
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
-            🚫 Course Closures
-          </div>
+              <h3 className="font-semibold text-lg">
+                8 Tee Times Available Tomorrow
+              </h3>
 
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
-            💰 Specials & Promotions
-          </div>
+              <p className="text-green-100 mb-3">
+                Openings from 9:00am - 11:30am due to cancellations.
+              </p>
 
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
-            📢 Tournament Updates
+              <button className="text-green-300 font-semibold">
+                Book Now →
+              </button>
+            </div>
+
+            <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
+              <div className="text-green-300 text-sm mb-1">
+                Bear Slide Golf Club
+              </div>
+
+              <h3 className="font-semibold text-lg">
+                Member Guest Registration Open
+              </h3>
+
+              <p className="text-green-100 mb-3">
+                Registration closes June 15.
+              </p>
+
+              <button className="text-green-300 font-semibold">
+                Learn More →
+              </button>
+            </div>
+
+            <div className="bg-green-950/40 border border-green-800 rounded-xl p-4">
+              <div className="text-green-300 text-sm mb-1">
+                Purgatory Golf Club
+              </div>
+
+              <h3 className="font-semibold text-lg">
+                Aerification Scheduled Next Week
+              </h3>
+
+              <p className="text-green-100">
+                Greens will be aerified Monday and Tuesday.
+              </p>
+            </div>
           </div>
         </div>
 

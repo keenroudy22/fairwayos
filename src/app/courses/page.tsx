@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 export default function CourseDirectoryPage() {
@@ -30,6 +31,7 @@ export default function CourseDirectoryPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
+      <Navbar />      
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">

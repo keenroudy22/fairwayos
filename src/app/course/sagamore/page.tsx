@@ -1,8 +1,11 @@
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 export default function SagamorePage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
+      <Navbar />
+
       <div className="max-w-3xl mx-auto px-4 py-8">
         <Link href="/feed" className="text-green-300 text-sm">
           ← Back to Feed

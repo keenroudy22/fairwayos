@@ -1,7 +1,18 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import { supabase } from "@/lib/supabase";
 
-export default function FeedPage() {
+export default async function FeedPage() {
+  const { data: posts } = await supabase
+    .from("posts")
+    .select(`
+      *,
+      courses (
+        name
+      )
+    `)
+    .order("created_at", { ascending: false });
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
       <Navbar />
@@ -26,95 +37,34 @@ export default function FeedPage() {
         </div>
 
         <div className="space-y-5">
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-5">
-            <Link
-              href="/course/sagamore"
-              className="text-green-300 text-sm hover:text-white"
+          {posts?.map((post) => (
+            <div
+              key={post.id}
+              className="bg-green-950/40 border border-green-800 rounded-xl p-5"
             >
-              Sagamore Golf Club →
-            </Link>
+              <div className="text-green-300 text-sm">
+                {post.courses?.name ?? "Unknown Course"}
+              </div>
 
-            <h2 className="text-2xl font-semibold mt-2 mb-3">
-              8 Tee Times Available Tomorrow
-            </h2>
+              <h2 className="text-2xl font-semibold mt-2 mb-3">
+                {post.title}
+              </h2>
 
-            <p className="text-green-100 mb-4">
-              Openings from 9:00 AM - 11:30 AM due to cancellations.
-            </p>
+              <p className="text-green-100 mb-4">
+                {post.description}
+              </p>
 
-            <div className="flex gap-3">
-              <button className="bg-green-600 px-4 py-2 rounded-lg font-semibold">
-                Book Now
-              </button>
-
-              <Link
-                href="/course/sagamore"
-                className="border border-green-300 px-4 py-2 rounded-lg"
-              >
-                View Course
-              </Link>
+              <div className="flex gap-3">
+                <a
+                  href={post.button_link}
+                  target="_blank"
+                  className="bg-green-600 px-4 py-2 rounded-lg font-semibold"
+                >
+                  {post.button_text}
+                </a>
+              </div>
             </div>
-          </div>
-
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-5">
-            <Link
-              href="/course/bearslide"
-              className="text-green-300 text-sm hover:text-white"
-            >
-              Bear Slide Golf Club →
-            </Link>
-
-            <h2 className="text-2xl font-semibold mt-2 mb-3">
-              Member Guest Registration Open
-            </h2>
-
-            <p className="text-green-100 mb-4">
-              Registration closes June 15.
-            </p>
-
-            <div className="flex gap-3">
-              <button className="bg-green-600 px-4 py-2 rounded-lg font-semibold">
-                Learn More
-              </button>
-
-              <Link
-                href="/course/bearslide"
-                className="border border-green-300 px-4 py-2 rounded-lg"
-              >
-                View Course
-              </Link>
-            </div>
-          </div>
-
-          <div className="bg-green-950/40 border border-green-800 rounded-xl p-5">
-            <Link
-              href="/course/purgatory"
-              className="text-green-300 text-sm hover:text-white"
-            >
-              Purgatory Golf Club →
-            </Link>
-
-            <h2 className="text-2xl font-semibold mt-2 mb-3">
-              Aerification Scheduled Next Week
-            </h2>
-
-            <p className="text-green-100 mb-4">
-              Greens will be aerified Monday and Tuesday.
-            </p>
-
-            <div className="flex gap-3">
-              <button className="bg-green-600 px-4 py-2 rounded-lg font-semibold">
-                View Update
-              </button>
-
-              <Link
-                href="/course/purgatory"
-                className="border border-green-300 px-4 py-2 rounded-lg"
-              >
-                View Course
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </main>

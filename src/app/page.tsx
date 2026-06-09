@@ -9,7 +9,7 @@ export default function Home() {
 
       <section className="px-5 py-8 text-center">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Stay Connected ~ Stay Informed ~ Stay on the Fairway
+          The Fairway Called. You're Missing Out.
         </h1>
 
         <p className="text-lg text-green-100 max-w-2xl mx-auto mb-10">

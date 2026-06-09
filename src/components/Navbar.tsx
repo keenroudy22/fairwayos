@@ -5,20 +5,21 @@ export default function Navbar() {
   return (
     <nav className="border-b border-green-900 bg-green-950/50 backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href="/">
           <Image
             src="/FairwayOS-logo.png"
             alt="FairwayOS"
-            width={220}
-            height={50}
+            width={180}
+            height={40}
             className="h-auto w-auto"
             priority
           />
         </Link>
 
-        {/* Navigation */}
-        <div className="flex items-center gap-4">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-5">
           <Link
             href="/feed"
             className="text-green-100 hover:text-white transition"
@@ -54,6 +55,31 @@ export default function Navbar() {
             Sign Up
           </Link>
         </div>
+
+        {/* Mobile Navigation */}
+        <div className="flex md:hidden items-center gap-2">
+          <Link
+            href="/feed"
+            className="text-sm text-green-100"
+          >
+            Feed
+          </Link>
+
+          <Link
+            href="/courses"
+            className="text-sm text-green-100"
+          >
+            Courses
+          </Link>
+
+          <Link
+            href="/signin"
+            className="border border-green-300 px-3 py-1 rounded-lg text-sm"
+          >
+            Sign In
+          </Link>
+        </div>
+
       </div>
     </nav>
   );

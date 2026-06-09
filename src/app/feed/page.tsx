@@ -1,12 +1,27 @@
+import Link from "next/link";
+
 export default function FeedPage() {
-  import Link from "next/link";
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-6">
-          Golf Feed
-        </h1>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold">Golf Feed</h1>
+            <p className="text-green-300 mt-1">
+              Updates from courses you follow and courses near you.
+            </p>
+          </div>
 
+          <Link
+            href="/"
+            className="border border-green-300 px-4 py-2 rounded-lg hover:bg-green-900 transition"
+          >
+            Home
+          </Link>
+        </div>
+
+        {/* Feed Tabs */}
         <div className="flex gap-3 mb-8">
           <button className="bg-white text-green-950 px-4 py-2 rounded-lg font-semibold">
             Near Me
@@ -17,60 +32,119 @@ export default function FeedPage() {
           </button>
         </div>
 
-          <Link
-          href="/course/sagamore"
-            className="text-green-300 text-sm mb-1 block hover:text-white"
+        {/* Feed */}
+        <div className="space-y-5">
+          {/* Sagamore */}
+          <div className="bg-green-950/40 border border-green-800 rounded-xl p-5">
+            <Link
+              href="/course/sagamore"
+              className="text-green-300 text-sm hover:text-white transition"
             >
               Sagamore Golf Club →
-          </Link>
+            </Link>
 
-            <h2 className="text-xl font-semibold mb-2">
+            <h2 className="text-2xl font-semibold mt-2 mb-3">
               8 Tee Times Available Tomorrow
             </h2>
 
             <p className="text-green-100 mb-4">
-              Openings from 9:00am - 11:30am due to cancellations.
+              Openings from 9:00 AM - 11:30 AM due to cancellations.
             </p>
 
-            <button className="text-green-300 font-semibold">
-              Book Now →
-            </button>
+            <div className="flex gap-3">
+              <button className="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg font-semibold transition">
+                Book Now
+              </button>
+
+              <button className="border border-green-300 px-4 py-2 rounded-lg">
+                View Course
+              </button>
+            </div>
           </div>
 
+          {/* Bear Slide */}
           <div className="bg-green-950/40 border border-green-800 rounded-xl p-5">
-            <div className="text-green-300 text-sm mb-1">
-              Bear Slide Golf Club
-            </div>
+            <Link
+              href="/course/pebblebrook"
+              className="text-green-300 text-sm hover:text-white transition"
+            >
+              Bear Slide Golf Club →
+            </Link>
 
-            <h2 className="text-xl font-semibold mb-2">
+            <h2 className="text-2xl font-semibold mt-2 mb-3">
               Member Guest Registration Open
             </h2>
 
             <p className="text-green-100 mb-4">
-              Registration closes June 15.
+              Registration closes June 15. Contact the pro shop for details.
             </p>
 
-            <button className="text-green-300 font-semibold">
-              Learn More →
-            </button>
+            <div className="flex gap-3">
+              <button className="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg font-semibold transition">
+                Learn More
+              </button>
+
+              <button className="border border-green-300 px-4 py-2 rounded-lg">
+                View Course
+              </button>
+            </div>
           </div>
 
+          {/* Purgatory */}
           <div className="bg-green-950/40 border border-green-800 rounded-xl p-5">
-            <div className="text-green-300 text-sm mb-1">
-              Purgatory Golf Club
-            </div>
+            <Link
+              href="#"
+              className="text-green-300 text-sm hover:text-white transition"
+            >
+              Purgatory Golf Club →
+            </Link>
 
-            <h2 className="text-xl font-semibold mb-2">
+            <h2 className="text-2xl font-semibold mt-2 mb-3">
               Aerification Scheduled Next Week
             </h2>
 
             <p className="text-green-100 mb-4">
-              Greens will be aerified Monday and Tuesday.
+              Greens will be aerified Monday and Tuesday. Expect temporary
+              course condition impacts.
             </p>
 
-            <button className="text-green-300 font-semibold">
-              View Update →
-            </button>
+            <div className="flex gap-3">
+              <button className="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg font-semibold transition">
+                View Update
+              </button>
+
+              <button className="border border-green-300 px-4 py-2 rounded-lg">
+                View Course
+              </button>
+            </div>
+          </div>
+
+          {/* Pebble Brook */}
+          <div className="bg-green-950/40 border border-green-800 rounded-xl p-5">
+            <Link
+              href="/course/pebblebrook"
+              className="text-green-300 text-sm hover:text-white transition"
+            >
+              Pebble Brook Golf Club →
+            </Link>
+
+            <h2 className="text-2xl font-semibold mt-2 mb-3">
+              Friday Night Scramble Announced
+            </h2>
+
+            <p className="text-green-100 mb-4">
+              Teams of 4. Shotgun start at 6 PM. Registration now open.
+            </p>
+
+            <div className="flex gap-3">
+              <button className="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg font-semibold transition">
+                Register
+              </button>
+
+              <button className="border border-green-300 px-4 py-2 rounded-lg">
+                View Course
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ export default async function FeedPage() {
     .select(`
       *,
       courses (
+        id,
         name
       )
     `)
@@ -19,7 +20,9 @@ export default async function FeedPage() {
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold">Feed</h1>
+          <h1 className="text-4xl font-bold">
+            Feed
+          </h1>
 
           <p className="text-green-300 mt-2">
             Updates from courses you follow and courses near you.
@@ -55,13 +58,23 @@ export default async function FeedPage() {
               </p>
 
               <div className="flex gap-3">
-                <a
-                  href={post.button_link}
-                  target="_blank"
-                  className="bg-green-600 px-4 py-2 rounded-lg font-semibold"
+                {post.button_link && (
+                  <a
+                    href={post.button_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-green-600 px-4 py-2 rounded-lg font-semibold"
+                  >
+                    {post.button_text || "Learn More"}
+                  </a>
+                )}
+
+                <Link
+                  href={`/course/${post.course_id}`}
+                  className="border border-green-300 px-4 py-2 rounded-lg"
                 >
-                  {post.button_text}
-                </a>
+                  View Course
+                </Link>
               </div>
             </div>
           ))}

@@ -1,6 +1,62 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
+import { supabase } from "@/lib/supabase";
 
 export default function CourseAdminPage() {
+  const [type, setType] = useState("Tee Time Alert");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [buttonText, setButtonText] = useState("");
+  const [buttonLink, setButtonLink] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState<any[]>([]);
+
+  async function loadPosts() {
+    const { data } = await supabase
+      .from("posts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (data) {
+      setPosts(data);
+    }
+  }
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  async function publishPost() {
+    setLoading(true);
+
+    const { error } = await supabase.from("posts").insert({
+      course_id: "925bb319-ffb3-480f-be7c-270df439c5f4",
+      type,
+      title,
+      description,
+      button_text: buttonText,
+      button_link: buttonLink,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    await loadPosts();
+
+    alert("Post Published!");
+
+    setTitle("");
+    setDescription("");
+    setButtonText("");
+    setButtonLink("");
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
       <Navbar />
@@ -31,7 +87,7 @@ export default function CourseAdminPage() {
             </div>
 
             <div className="text-3xl font-bold">
-              18
+              {posts.length}
             </div>
           </div>
 
@@ -57,7 +113,11 @@ export default function CourseAdminPage() {
                 Post Type
               </label>
 
-              <select className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3">
+              <select
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
+              >
                 <option>Tee Time Alert</option>
                 <option>Event</option>
                 <option>Tournament</option>
@@ -72,6 +132,8 @@ export default function CourseAdminPage() {
               </label>
 
               <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 type="text"
                 placeholder="8 Tee Times Available Tomorrow"
                 className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
@@ -84,6 +146,8 @@ export default function CourseAdminPage() {
               </label>
 
               <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 rows={5}
                 placeholder="Openings from 9:00 AM - 11:30 AM due to cancellations."
                 className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
@@ -96,6 +160,8 @@ export default function CourseAdminPage() {
               </label>
 
               <input
+                value={buttonText}
+                onChange={(e) => setButtonText(e.target.value)}
                 type="text"
                 placeholder="Book Now"
                 className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
@@ -108,14 +174,20 @@ export default function CourseAdminPage() {
               </label>
 
               <input
+                value={buttonLink}
+                onChange={(e) => setButtonLink(e.target.value)}
                 type="text"
                 placeholder="https://..."
                 className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
               />
             </div>
 
-            <button className="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-semibold transition">
-              Publish Update
+            <button
+              onClick={publishPost}
+              disabled={loading}
+              className="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-semibold transition"
+            >
+              {loading ? "Publishing..." : "Publish Update"}
             </button>
           </div>
         </div>
@@ -126,25 +198,24 @@ export default function CourseAdminPage() {
           </h2>
 
           <div className="space-y-4">
-            <div className="border border-green-800 rounded-xl p-4">
-              <div className="text-green-300 text-sm">
-                Tee Time Alert
-              </div>
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="border border-green-800 rounded-xl p-4"
+              >
+                <div className="text-green-300 text-sm">
+                  {post.type}
+                </div>
 
-              <div className="font-semibold mt-1">
-                8 Tee Times Available Tomorrow
-              </div>
-            </div>
+                <div className="font-semibold mt-1">
+                  {post.title}
+                </div>
 
-            <div className="border border-green-800 rounded-xl p-4">
-              <div className="text-green-300 text-sm">
-                Event
+                <div className="text-green-200 text-sm mt-2">
+                  {post.description}
+                </div>
               </div>
-
-              <div className="font-semibold mt-1">
-                Member Guest Registration Open
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

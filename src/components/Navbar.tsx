@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 
@@ -36,38 +37,58 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="border-b border-green-900 bg-green-950/60 backdrop-blur">
+    <nav className="border-b border-green-900 bg-green-950/60 backdrop-blur sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          className="text-2xl font-bold text-white"
-        >
-          FairwayOS
+        <Link href="/">
+          <Image
+            src="/FairwayOS-logo.png"
+            alt="FairwayOS"
+            width={180}
+            height={40}
+            priority
+            className="h-10 w-auto"
+          />
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/feed">Feed</Link>
+          <Link href="/feed" className="hover:text-green-300 transition">
+            Feed
+          </Link>
 
-          <Link href="/courses">Courses</Link>
+          <Link href="/courses" className="hover:text-green-300 transition">
+            Courses
+          </Link>
 
-          <Link href="/register-course">
+          <Link
+            href="/register-course"
+            className="hover:text-green-300 transition"
+          >
             Register Course
           </Link>
 
           {loggedIn && (
-            <Link href="/course-admin">
+            <Link
+              href="/course-admin"
+              className="hover:text-green-300 transition"
+            >
               Course Admin
             </Link>
           )}
 
           {!loggedIn && (
             <>
-              <Link href="/signin">
+              <Link
+                href="/signin"
+                className="hover:text-green-300 transition"
+              >
                 Sign In
               </Link>
 
-              <Link href="/signup">
+              <Link
+                href="/signup"
+                className="bg-white text-green-950 px-4 py-2 rounded-lg font-semibold"
+              >
                 Sign Up
               </Link>
             </>
@@ -76,7 +97,7 @@ export default function Navbar() {
           {loggedIn && (
             <button
               onClick={logout}
-              className="border border-red-500 text-red-300 px-3 py-1 rounded-lg hover:bg-red-500/20"
+              className="border border-red-500 text-red-300 px-3 py-2 rounded-lg hover:bg-red-500/20 transition"
             >
               Logout
             </button>
@@ -88,47 +109,65 @@ export default function Navbar() {
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden border border-green-500 px-3 py-2 rounded-lg"
         >
-          ☰
+          Menu
         </button>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-green-900 px-4 py-4 flex flex-col gap-4">
-          <Link href="/feed">Feed</Link>
-
-          <Link href="/courses">Courses</Link>
-
-          <Link href="/register-course">
-            Register Course
-          </Link>
-
-          {loggedIn && (
-            <Link href="/course-admin">
-              Course Admin
+        <div className="md:hidden border-t border-green-900 bg-green-950 px-4 py-4">
+          <div className="flex flex-col gap-4">
+            <Link href="/feed" onClick={() => setMenuOpen(false)}>
+              Feed
             </Link>
-          )}
 
-          {!loggedIn && (
-            <>
-              <Link href="/signin">
-                Sign In
-              </Link>
+            <Link href="/courses" onClick={() => setMenuOpen(false)}>
+              Courses
+            </Link>
 
-              <Link href="/signup">
-                Sign Up
-              </Link>
-            </>
-          )}
-
-          {loggedIn && (
-            <button
-              onClick={logout}
-              className="text-left text-red-300"
+            <Link
+              href="/register-course"
+              onClick={() => setMenuOpen(false)}
             >
-              Logout
-            </button>
-          )}
+              Register Course
+            </Link>
+
+            {loggedIn && (
+              <Link
+                href="/course-admin"
+                onClick={() => setMenuOpen(false)}
+              >
+                Course Admin
+              </Link>
+            )}
+
+            {!loggedIn && (
+              <>
+                <Link
+                  href="/signin"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+
+                <Link
+                  href="/signup"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+
+            {loggedIn && (
+              <button
+                onClick={logout}
+                className="text-left text-red-300"
+              >
+                Logout
+              </button>
+            )}
+          </div>
         </div>
       )}
     </nav>

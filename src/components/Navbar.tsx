@@ -1,85 +1,89 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
-  return (
-    <nav className="border-b border-green-900 bg-green-950/50 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+  const [loggedIn, setLoggedIn] = useState(false);
 
-        {/* Logo */}
-        <Link href="/">
-          <Image
-            src="/FairwayOS-logo.png"
-            alt="FairwayOS"
-            width={180}
-            height={40}
-            className="h-auto w-auto"
-            priority
-          />
+  useEffect(() => {
+    async function checkUser() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      setLoggedIn(!!session);
+    }
+
+    checkUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setLoggedIn(!!session);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  }
+
+  return (
+    <nav className="border-b border-green-900 bg-green-950/60 backdrop-blur">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <Link
+          href="/"
+          className="text-xl font-bold text-white"
+        >
+          FairwayOS
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-5">
-          <Link
-            href="/feed"
-            className="text-green-100 hover:text-white transition"
-          >
+        <div className="flex items-center gap-4">
+          <Link href="/feed">
             Feed
           </Link>
 
-          <Link
-            href="/courses"
-            className="text-green-100 hover:text-white transition"
-          >
+          <Link href="/courses">
             Courses
           </Link>
 
-          <Link
-            href="/register-course"
-            className="text-green-100 hover:text-white transition"
-          >
+          <Link href="/register-course">
             Register Course
           </Link>
 
-          <Link
-            href="/signin"
-            className="border border-green-300 px-4 py-2 rounded-lg hover:bg-green-900 transition"
-          >
-            Sign In
-          </Link>
+          {loggedIn && (
+            <Link href="/course-admin">
+              Course Admin
+            </Link>
+          )}
 
-          <Link
-            href="/signup"
-            className="bg-white text-green-950 px-4 py-2 rounded-lg font-semibold hover:bg-green-100 transition"
-          >
-            Sign Up
-          </Link>
+          {!loggedIn && (
+            <>
+              <Link href="/signin">
+                Sign In
+              </Link>
+
+              <Link href="/signup">
+                Sign Up
+              </Link>
+            </>
+          )}
+
+          {loggedIn && (
+            <button
+              onClick={logout}
+              className="border border-red-500 text-red-300 px-3 py-1 rounded-lg hover:bg-red-500/20"
+            >
+              Logout
+            </button>
+          )}
         </div>
-
-        {/* Mobile Navigation */}
-        <div className="flex md:hidden items-center gap-2">
-          <Link
-            href="/feed"
-            className="text-sm text-green-100"
-          >
-            Feed
-          </Link>
-
-          <Link
-            href="/courses"
-            className="text-sm text-green-100"
-          >
-            Courses
-          </Link>
-
-          <Link
-            href="/signin"
-            className="border border-green-300 px-3 py-1 rounded-lg text-sm"
-          >
-            Sign In
-          </Link>
-        </div>
-
       </div>
     </nav>
   );

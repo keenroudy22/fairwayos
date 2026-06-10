@@ -28,34 +28,56 @@ export default function CourseAdminPage() {
     loadPosts();
   }, []);
 
-  async function publishPost() {
-    setLoading(true);
+async function publishPost() {
+  setLoading(true);
 
-    const { error } = await supabase.from("posts").insert({
-      course_id: "925bb319-ffb3-480f-be7c-270df439c5f4",
-      type,
-      title,
-      description,
-      button_text: buttonText,
-      button_link: buttonLink,
-    });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
+  if (!session) {
+    alert("You must be signed in.");
     setLoading(false);
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    await loadPosts();
-
-    alert("Post Published!");
-
-    setTitle("");
-    setDescription("");
-    setButtonText("");
-    setButtonLink("");
+    return;
   }
+
+  const { data: admin, error: adminError } = await supabase
+    .from("course_admins")
+    .select("course_id")
+    .eq("user_id", session.user.id)
+    .single();
+
+  if (adminError || !admin) {
+    alert("No course assigned to this account.");
+    setLoading(false);
+    return;
+  }
+
+  const { error } = await supabase.from("posts").insert({
+    course_id: admin.course_id,
+    type,
+    title,
+    description,
+    button_text: buttonText,
+    button_link: buttonLink,
+  });
+
+  setLoading(false);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  await loadPosts();
+
+  alert("Post Published!");
+
+  setTitle("");
+  setDescription("");
+  setButtonText("");
+  setButtonLink("");
+}
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">

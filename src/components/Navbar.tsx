@@ -38,15 +38,15 @@ export default function Navbar() {
 
   return (
     <nav className="border-b border-green-900 bg-green-950/60 backdrop-blur sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link href="/">
           <Image
-            src="/FairwayOS-logo.png"
+            src="/FairwayOS-logo-v2.png"
             alt="FairwayOS"
-            width={180}
-            height={40}
+            width={1000}
+            height={250}
             priority
-            className="h-10 w-auto"
+            className="h-24 md:h-28 w-auto"
           />
         </Link>
 

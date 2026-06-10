@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     async function checkUser() {
@@ -39,19 +40,16 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link
           href="/"
-          className="text-xl font-bold text-white"
+          className="text-2xl font-bold text-white"
         >
           FairwayOS
         </Link>
 
-        <div className="flex items-center gap-4">
-          <Link href="/feed">
-            Feed
-          </Link>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="/feed">Feed</Link>
 
-          <Link href="/courses">
-            Courses
-          </Link>
+          <Link href="/courses">Courses</Link>
 
           <Link href="/register-course">
             Register Course
@@ -84,7 +82,55 @@ export default function Navbar() {
             </button>
           )}
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden border border-green-500 px-3 py-2 rounded-lg"
+        >
+          ☰
+        </button>
       </div>
+
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="md:hidden border-t border-green-900 px-4 py-4 flex flex-col gap-4">
+          <Link href="/feed">Feed</Link>
+
+          <Link href="/courses">Courses</Link>
+
+          <Link href="/register-course">
+            Register Course
+          </Link>
+
+          {loggedIn && (
+            <Link href="/course-admin">
+              Course Admin
+            </Link>
+          )}
+
+          {!loggedIn && (
+            <>
+              <Link href="/signin">
+                Sign In
+              </Link>
+
+              <Link href="/signup">
+                Sign Up
+              </Link>
+            </>
+          )}
+
+          {loggedIn && (
+            <button
+              onClick={logout}
+              className="text-left text-red-300"
+            >
+              Logout
+            </button>
+          )}
+        </div>
+      )}
     </nav>
   );
 }

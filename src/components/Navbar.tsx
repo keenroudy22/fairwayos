@@ -10,30 +10,31 @@ import { createPortal } from "react-dom";
 const NAV_LINKS = [
   { href: "/feed", label: "Feed" },
   { href: "/courses", label: "Courses" },
+  { href: "/register-course", label: "Register Course" },
 ];
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
-    <span className="relative block h-4 w-5" aria-hidden="true">
+    <span className="relative block h-[18px] w-[18px]" aria-hidden="true">
       <span
-        className="absolute left-0 top-0 h-0.5 w-5 rounded-full transition-transform"
+        className="absolute left-0 top-[2px] h-0.5 w-[18px] rounded-full transition-transform"
         style={{
           background: "currentColor",
-          transform: open ? "translateY(7px) rotate(45deg)" : "translateY(0)",
+          transform: open ? "translateY(6px) rotate(45deg)" : "translateY(0)",
         }}
       />
       <span
-        className="absolute left-0 top-[7px] h-0.5 w-5 rounded-full transition-opacity"
+        className="absolute left-[3px] top-[8px] h-0.5 w-3 rounded-full transition-all"
         style={{
           background: "currentColor",
           opacity: open ? 0 : 1,
         }}
       />
       <span
-        className="absolute left-0 top-[14px] h-0.5 w-5 rounded-full transition-transform"
+        className="absolute left-0 top-[14px] h-0.5 w-[18px] rounded-full transition-transform"
         style={{
           background: "currentColor",
-          transform: open ? "translateY(-7px) rotate(-45deg)" : "translateY(0)",
+          transform: open ? "translateY(-6px) rotate(-45deg)" : "translateY(0)",
         }}
       />
     </span>
@@ -155,10 +156,11 @@ export default function Navbar() {
                 type="button"
                 onClick={closeMenu}
                 aria-label="Close navigation"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border"
                 style={{
                   borderColor: "rgba(255,255,255,0.12)",
                   color: "var(--sand)",
+                  background: "rgba(255,255,255,0.03)",
                 }}
               >
                 <MenuIcon open />
@@ -209,35 +211,46 @@ export default function Navbar() {
         }}
       >
         <div className="app-shell flex h-[72px] items-center justify-between lg:h-20">
-          <Link href="/" className="flex shrink-0 items-center" onClick={closeMenu}>
-            <Image
-              src="/FairwayOS-logo-v2.png"
-              alt="FairwayOS"
-              width={190}
-              height={48}
-              priority
-              className="h-auto w-[160px] sm:w-[190px]"
-            />
-          </Link>
+          <div className="flex min-w-0 items-center gap-10">
+            <Link href="/" className="flex shrink-0 items-center" onClick={closeMenu}>
+              <Image
+                src="/FairwayOS-logo-v2.png"
+                alt="FairwayOS"
+                width={240}
+                height={58}
+                priority
+                className="h-auto w-[210px] sm:w-[240px]"
+              />
+            </Link>
+
+            {!isCompactNav && (
+              <nav aria-label="Primary" className="flex items-center">
+                <ul className="m-0 flex list-none items-center gap-6 p-0">
+                  {NAV_LINKS.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="inline-flex rounded-lg px-3 py-2 text-sm font-medium transition-colors"
+                        style={{
+                          color: isActive(link.href)
+                            ? "var(--turf)"
+                            : "var(--body-text)",
+                        }}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
+          </div>
 
           {!isCompactNav && (
-            <div className="flex items-center gap-10">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-medium transition-colors"
-                  style={{
-                    color: isActive(link.href) ? "var(--turf)" : "var(--body-text)",
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ))}
+            <div className="flex shrink-0 items-center gap-4">
+              {authLinks}
             </div>
           )}
-
-          {!isCompactNav && <div className="flex items-center gap-4">{authLinks}</div>}
 
           {isCompactNav && (
             <button
@@ -245,10 +258,11 @@ export default function Navbar() {
               aria-label="Toggle navigation menu"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((open) => !open)}
-              className="flex h-10 w-10 items-center justify-center rounded-lg border"
+              className="ml-auto flex h-11 w-11 items-center justify-center rounded-xl border"
               style={{
                 borderColor: "rgba(255,255,255,0.12)",
                 color: "var(--sand)",
+                background: "rgba(255,255,255,0.03)",
               }}
             >
               <MenuIcon open={menuOpen} />

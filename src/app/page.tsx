@@ -30,17 +30,17 @@ export default async function Home() {
       >
         <div className="app-shell page-section relative z-10">
           <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-            <div>
-              <p className="page-kicker">Local golf, live</p>
-
+          <div>
               <h1
-                className="mt-5 max-w-4xl font-display font-bold leading-tight"
+                className="max-w-4xl font-display font-bold leading-tight"
                 style={{
                   fontSize: "clamp(3.1rem, 5vw, 5.25rem)",
                   color: "var(--sand)",
                 }}
               >
-                Twitter for golf courses.
+                Golf Courses Finally Have
+                <br />
+                <span style={{ color: "var(--turf)" }}>A Social Feed.</span>
               </h1>
 
               <p

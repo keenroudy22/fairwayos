@@ -25,7 +25,8 @@ export default async function FeedPage() {
             "radial-gradient(circle at top, rgba(34,197,94,0.10), transparent 60%)",
         }}
       >
-        <div className="mx-auto max-w-6xl px-6 py-10 lg:py-12">
+        <div className="app-shell page-section !py-10">
+          <div className="mx-auto max-w-5xl">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p
@@ -63,10 +64,12 @@ export default async function FeedPage() {
               feed
             </div>
           </div>
+          </div>
         </div>
       </section>
 
-      <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="app-shell page-section !py-10">
+        <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
         <section>
           {error && (
             <div className="card p-6 text-center" style={{ color: "#fb7185" }}>
@@ -137,6 +140,7 @@ export default async function FeedPage() {
             </div>
           </div>
         </aside>
+        </div>
       </div>
     </main>
   );

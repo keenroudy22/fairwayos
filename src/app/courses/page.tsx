@@ -67,7 +67,8 @@ export default function CoursesPage() {
             "radial-gradient(circle at top, rgba(34,197,94,0.10), transparent 60%)",
         }}
       >
-        <div className="mx-auto max-w-6xl px-6 py-10 lg:py-12">
+        <div className="app-shell page-section !py-10">
+          <div className="mx-auto max-w-5xl">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p
@@ -102,10 +103,12 @@ export default function CoursesPage() {
               {search ? ` matching "${search}"` : ""}
             </div>
           </div>
+          </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-6 py-10">
+      <div className="app-shell page-section !py-10">
+        <div className="mx-auto max-w-5xl">
         <div className="relative mb-8 fade-up fade-up-delay-1">
           <svg
             className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
@@ -175,7 +178,7 @@ export default function CoursesPage() {
         )}
 
         {!loading && !error && filtered.length > 0 && (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2">
             {filtered.map((course, i) => (
               <Link
                 key={course.id}
@@ -235,6 +238,7 @@ export default function CoursesPage() {
             ))}
           </div>
         )}
+        </div>
       </div>
     </main>
   );

@@ -21,7 +21,7 @@ export interface Post {
   button_text: string | null;
   button_link: string | null;
   created_at: string;
-  courses?: { id: string; name: string } | null;
+  courses?: { id: string; name: string; city?: string | null; state?: string | null } | null;
 }
 
 const TYPE_CONFIG: Record<

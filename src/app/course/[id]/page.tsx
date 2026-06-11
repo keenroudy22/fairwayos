@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import PostCard, { Post } from "@/components/PostCard";
 import { supabase } from "@/lib/supabase";
+import FollowCourseButton from "@/components/FollowCourseButton";
 
 function initials(name: string) {
   return name
@@ -107,9 +108,7 @@ export default async function CoursePage({
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button type="button" className="btn-primary">
-                Follow Course
-              </button>
+              <FollowCourseButton courseId={course.id} />
 
               {course.website && (
                 <a

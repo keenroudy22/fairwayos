@@ -211,7 +211,7 @@ export default function Navbar() {
         }}
       >
         <div className="app-shell flex h-[72px] items-center justify-between lg:h-20">
-          <div className="flex min-w-0 items-center gap-10">
+          <div className="flex items-center">
             <Link href="/" className="flex shrink-0 items-center" onClick={closeMenu}>
               <Image
                 src="/FairwayOS-logo-v2.png"
@@ -224,24 +224,26 @@ export default function Navbar() {
             </Link>
 
             {!isCompactNav && (
-              <nav aria-label="Primary" className="flex items-center">
-                <ul className="m-0 flex list-none items-center gap-6 p-0">
+              <nav
+                aria-label="Primary"
+                className="ml-12 flex shrink-0 items-center"
+                style={{ columnGap: "28px" }}
+              >
                   {NAV_LINKS.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="inline-flex rounded-lg px-3 py-2 text-sm font-medium transition-colors"
-                        style={{
-                          color: isActive(link.href)
-                            ? "var(--turf)"
-                            : "var(--body-text)",
-                        }}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="inline-flex rounded-lg px-1 py-2 text-sm font-medium transition-colors"
+                      style={{
+                        color: isActive(link.href)
+                          ? "var(--turf)"
+                          : "var(--body-text)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {link.label}
+                    </Link>
                   ))}
-                </ul>
               </nav>
             )}
           </div>

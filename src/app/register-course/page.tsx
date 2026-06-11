@@ -31,7 +31,6 @@ export default function RegisterCoursePage() {
     }
 
     alert("Course Submitted!");
-
     setName("");
     setCity("");
     setState("");
@@ -40,101 +39,104 @@ export default function RegisterCoursePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
+    <main className="min-h-screen" style={{ background: "var(--fairway-950)" }}>
       <Navbar />
 
-      <div className="max-w-2xl mx-auto px-4 py-10">
-        <h1 className="text-4xl font-bold mb-3">
-          Register Your Golf Course
-        </h1>
+      <section className="app-shell-narrow page-section">
+        <div className="mx-auto max-w-2xl">
+          <div className="mb-8">
+            <p className="page-kicker">Grow the network</p>
+            <h1
+              className="mt-3 font-display text-4xl font-bold"
+              style={{ color: "var(--sand)" }}
+            >
+              Register Your Golf Course
+            </h1>
 
-        <p className="text-green-300 mb-8">
-          Join FairwayOS and start reaching golfers with updates, events,
-          promotions, tee times, and course announcements.
-        </p>
+            <p className="mt-3 max-w-xl" style={{ color: "var(--body-text)" }}>
+              Join FairwayOS and start reaching golfers with updates, events,
+              promotions, tee times, and course announcements.
+            </p>
+          </div>
 
-        <div className="bg-green-950/40 border border-green-800 rounded-2xl p-6">
-          <div className="space-y-5">
-            <div>
-              <label className="block mb-2 text-green-200">
-                Golf Course Name
-              </label>
+          <div className="card p-6 sm:p-8">
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label className="mb-2 block text-sm font-medium" style={{ color: "var(--sand)" }}>
+                  Golf Course Name
+                </label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
+                  placeholder="Sagamore Golf Club"
+                  className="form-input"
+                />
+              </div>
 
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                placeholder="Sagamore Golf Club"
-                className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
-              />
-            </div>
+              <div>
+                <label className="mb-2 block text-sm font-medium" style={{ color: "var(--sand)" }}>
+                  City
+                </label>
+                <input
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  type="text"
+                  placeholder="Noblesville"
+                  className="form-input"
+                />
+              </div>
 
-            <div>
-              <label className="block mb-2 text-green-200">
-                City
-              </label>
+              <div>
+                <label className="mb-2 block text-sm font-medium" style={{ color: "var(--sand)" }}>
+                  State
+                </label>
+                <input
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  type="text"
+                  placeholder="Indiana"
+                  className="form-input"
+                />
+              </div>
 
-              <input
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                type="text"
-                placeholder="Noblesville"
-                className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
-              />
-            </div>
+              <div className="sm:col-span-2">
+                <label className="mb-2 block text-sm font-medium" style={{ color: "var(--sand)" }}>
+                  Website
+                </label>
+                <input
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  type="text"
+                  placeholder="https://"
+                  className="form-input"
+                />
+              </div>
 
-            <div>
-              <label className="block mb-2 text-green-200">
-                State
-              </label>
-
-              <input
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                type="text"
-                placeholder="Indiana"
-                className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2 text-green-200">
-                Website
-              </label>
-
-              <input
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                type="text"
-                placeholder="https://"
-                className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2 text-green-200">
-                Phone Number
-              </label>
-
-              <input
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                type="text"
-                placeholder="(317) 555-5555"
-                className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
-              />
+              <div className="sm:col-span-2">
+                <label className="mb-2 block text-sm font-medium" style={{ color: "var(--sand)" }}>
+                  Phone Number
+                </label>
+                <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  type="text"
+                  placeholder="(317) 555-5555"
+                  className="form-input"
+                />
+              </div>
             </div>
 
             <button
               onClick={submitCourse}
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-semibold transition"
+              className="btn-primary mt-6 w-full"
             >
               {loading ? "Submitting..." : "Submit Course"}
             </button>
           </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

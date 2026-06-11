@@ -14,13 +14,9 @@ export default async function FeedPage() {
   const postList = (posts ?? []) as Post[];
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ background: "var(--fairway-950)" }}
-    >
+    <main className="min-h-screen" style={{ background: "var(--fairway-950)" }}>
       <Navbar />
 
-      {/* Hero */}
       <section
         className="border-b"
         style={{
@@ -29,84 +25,118 @@ export default async function FeedPage() {
             "radial-gradient(circle at top, rgba(34,197,94,0.10), transparent 60%)",
         }}
       >
-        <div className="max-w-5xl mx-auto px-6 py-12">
-          <h1
-            className="font-display text-5xl font-bold mb-3"
-            style={{ color: "var(--sand)" }}
-          >
-            Course Feed
-          </h1>
+        <div className="mx-auto max-w-6xl px-6 py-10 lg:py-12">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p
+                className="mb-2 text-sm font-semibold uppercase tracking-wider"
+                style={{ color: "var(--turf)" }}
+              >
+                Live course network
+              </p>
 
-          <p
-            className="text-lg max-w-2xl"
-            style={{ color: "var(--body-text)" }}
-          >
-            Live updates, events, tournaments, promotions, and tee time alerts
-            from golf courses across FairwayOS.
-          </p>
+              <h1
+                className="font-display text-4xl font-bold sm:text-5xl"
+                style={{ color: "var(--sand)" }}
+              >
+                Course Feed
+              </h1>
+
+              <p
+                className="mt-3 max-w-2xl text-lg"
+                style={{ color: "var(--body-text)" }}
+              >
+                Live updates, events, promotions, tournaments, and tee time
+                alerts from golf courses across FairwayOS.
+              </p>
+            </div>
+
+            <div
+              className="rounded-lg border px-4 py-3 text-sm"
+              style={{
+                background: "rgba(255,255,255,0.02)",
+                borderColor: "rgba(255,255,255,0.07)",
+                color: "var(--body-text)",
+              }}
+            >
+              {postList.length} post{postList.length === 1 ? "" : "s"} in the
+              feed
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-6 py-10">
-          {/* Main Feed */}
-          <div>
-            {error && (
-              <div
-                className="card p-6 text-center"
-                style={{ color: "#fb7185" }}
+      <div className="mx-auto grid max-w-6xl gap-8 px-6 py-10 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <section>
+          {error && (
+            <div className="card p-6 text-center" style={{ color: "#fb7185" }}>
+              <p className="mb-1 font-semibold">Could not load feed</p>
+              <p className="text-sm" style={{ color: "var(--muted)" }}>
+                {error.message}
+              </p>
+            </div>
+          )}
+
+          {!error && postList.length === 0 && (
+            <div className="card px-6 py-16 text-center" style={{ color: "var(--muted)" }}>
+              <p
+                className="font-display text-xl font-semibold"
+                style={{ color: "var(--white)" }}
               >
-                <p className="font-semibold mb-1">
-                  Could not load feed
-                </p>
+                The feed is empty
+              </p>
 
-                <p
-                  className="text-sm"
-                  style={{ color: "var(--muted)" }}
-                >
-                  {error.message}
-                </p>
-              </div>
-            )}
+              <p className="mb-6 mt-2 text-sm">No courses have posted yet.</p>
 
-            {!error && postList.length === 0 && (
-              <div
-                className="card text-center py-16 px-6"
-                style={{ color: "var(--muted)" }}
-              >
-                <p className="text-4xl mb-4">⛳</p>
+              <Link href="/register-course" className="btn-primary text-sm px-6 py-3">
+                Register Your Course
+              </Link>
+            </div>
+          )}
 
-                <p
-                  className="font-display text-xl font-semibold mb-2"
-                  style={{ color: "var(--white)" }}
-                >
-                  The feed is empty
-                </p>
+          {!error && postList.length > 0 && (
+            <div className="flex flex-col gap-4">
+              {postList.map((post, i) => (
+                <PostCard key={post.id} post={post} animDelay={i} />
+              ))}
+            </div>
+          )}
+        </section>
 
-                <p className="text-sm mb-6">
-                  No courses have posted yet.
-                </p>
+        <aside className="space-y-4">
+          <div className="card p-5">
+            <h2
+              className="font-display text-2xl font-semibold"
+              style={{ color: "var(--sand)" }}
+            >
+              What you will find
+            </h2>
 
-                <Link
-                  href="/register-course"
-                  className="btn-primary text-sm px-6 py-3"
-                >
-                  Register Your Course
-                </Link>
-              </div>
-            )}
-
-            {!error && postList.length > 0 && (
-              <div className="flex flex-col gap-4">
-                {postList.map((post, i) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    animDelay={i}
-                  />
-                ))}
-              </div>
-            )}
+            <p className="mt-3 text-sm leading-6" style={{ color: "var(--body-text)" }}>
+              Follow the feed for last-minute tee times, course conditions,
+              event registration, member updates, and promotional offers.
+            </p>
           </div>
+
+          <div className="card p-5">
+            <h2
+              className="font-display text-2xl font-semibold"
+              style={{ color: "var(--sand)" }}
+            >
+              Course actions
+            </h2>
+
+            <div className="mt-4 flex flex-col gap-3">
+              <Link href="/courses" className="btn-outline text-sm">
+                Browse Courses
+              </Link>
+
+              <Link href="/register-course" className="btn-primary text-sm">
+                Register a Course
+              </Link>
+            </div>
+          </div>
+        </aside>
       </div>
     </main>
   );

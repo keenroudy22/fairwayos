@@ -1,6 +1,21 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import PostCard, { Post } from "@/components/PostCard";
-import { supabase } from "@/lib/supabase";
+import PostCard, { Post, PostType } from "@/components/PostCard";
+
+interface StaticCoursePost {
+  type: PostType;
+  title: string;
+  description: string;
+  buttonText?: string;
+}
+
+interface StaticCourseProfileProps {
+  id: string;
+  name: string;
+  city: string;
+  state: string;
+  posts: StaticCoursePost[];
+}
 
 function initials(name: string) {
   return name
@@ -12,42 +27,29 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-export default async function CoursePage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+const DEMO_POST_DATES = [
+  "2026-06-11T14:00:00.000Z",
+  "2026-06-11T12:00:00.000Z",
+  "2026-06-11T10:00:00.000Z",
+];
 
-  const { data: course } = await supabase
-    .from("courses")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  const { data: posts } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("course_id", id)
-    .order("created_at", { ascending: false });
-
-  if (!course) {
-    return (
-      <main
-        className="min-h-screen"
-        style={{ background: "var(--fairway-950)", color: "var(--sand)" }}
-      >
-        <Navbar />
-        <div className="mx-auto max-w-3xl px-6 py-16">
-          <div className="card p-8 text-center">Course not found.</div>
-        </div>
-      </main>
-    );
-  }
-
-  const postList = ((posts ?? []) as Post[]).map((post) => ({
-    ...post,
-    courses: { id: course.id, name: course.name },
+export default function StaticCourseProfile({
+  id,
+  name,
+  city,
+  state,
+  posts,
+}: StaticCourseProfileProps) {
+  const postList: Post[] = posts.map((post, index) => ({
+    id: `${id}-${index}`,
+    course_id: id,
+    type: post.type,
+    title: post.title,
+    description: post.description,
+    button_text: post.buttonText ?? null,
+    button_link: "#",
+    created_at: DEMO_POST_DATES[index] ?? DEMO_POST_DATES[0],
+    courses: { id, name },
   }));
 
   return (
@@ -63,6 +65,14 @@ export default async function CoursePage({
         }}
       >
         <div className="mx-auto max-w-6xl px-6 py-8">
+          <Link
+            href="/feed"
+            className="mb-5 inline-flex text-sm font-semibold"
+            style={{ color: "var(--turf)" }}
+          >
+            &lt;- Back to Feed
+          </Link>
+
           <div
             className="h-36 rounded-lg border sm:h-44"
             style={{
@@ -82,7 +92,7 @@ export default async function CoursePage({
                   color: "var(--sand)",
                 }}
               >
-                {initials(course.name)}
+                {initials(name)}
               </div>
 
               <div className="pb-1">
@@ -97,11 +107,11 @@ export default async function CoursePage({
                   className="font-display text-4xl font-bold sm:text-5xl"
                   style={{ color: "var(--sand)" }}
                 >
-                  {course.name}
+                  {name}
                 </h1>
 
                 <p className="mt-2" style={{ color: "var(--body-text)" }}>
-                  {course.city}, {course.state}
+                  {city}, {state}
                 </p>
               </div>
             </div>
@@ -111,16 +121,9 @@ export default async function CoursePage({
                 Follow Course
               </button>
 
-              {course.website && (
-                <a
-                  href={course.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline"
-                >
-                  Visit Website
-                </a>
-              )}
+              <Link href="/feed" className="btn-outline">
+                View Feed
+              </Link>
             </div>
           </div>
         </div>
@@ -137,38 +140,20 @@ export default async function CoursePage({
                 Latest Updates
               </h2>
               <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
-                Posts from {course.name}.
+                Posts from {name}.
               </p>
             </div>
 
             <span className="text-sm" style={{ color: "var(--muted)" }}>
-              {postList.length} update{postList.length === 1 ? "" : "s"}
+              {postList.length} updates
             </span>
           </div>
 
-          {postList.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {postList.map((post, i) => (
-                <PostCard key={post.id} post={post} animDelay={i} />
-              ))}
-            </div>
-          ) : (
-            <div
-              className="card p-10 text-center"
-              style={{ color: "var(--muted)" }}
-            >
-              <p
-                className="font-display text-2xl font-semibold"
-                style={{ color: "var(--sand)" }}
-              >
-                No updates yet
-              </p>
-              <p className="mt-2 text-sm">
-                Follow this course to catch future tee times, events, and course
-                announcements.
-              </p>
-            </div>
-          )}
+          <div className="flex flex-col gap-4">
+            {postList.map((post, index) => (
+              <PostCard key={post.id} post={post} animDelay={index} />
+            ))}
+          </div>
         </section>
 
         <aside className="space-y-4">
@@ -181,8 +166,8 @@ export default async function CoursePage({
             </h2>
 
             <p className="mt-3 text-sm leading-6" style={{ color: "var(--body-text)" }}>
-              Follow {course.name} for local golf updates, tee time alerts,
-              events, tournaments, promotions, and course conditions.
+              Follow {name} for tee time alerts, events, tournaments,
+              promotions, and course conditions from {city}.
             </p>
           </div>
 
@@ -198,41 +183,16 @@ export default async function CoursePage({
               <div>
                 <dt style={{ color: "var(--muted)" }}>Location</dt>
                 <dd className="mt-1 font-medium" style={{ color: "var(--body-text)" }}>
-                  {course.city}, {course.state}
+                  {city}, {state}
                 </dd>
               </div>
 
-              {course.phone && (
-                <div>
-                  <dt style={{ color: "var(--muted)" }}>Phone</dt>
-                  <dd className="mt-1">
-                    <a
-                      href={`tel:${course.phone}`}
-                      className="font-medium"
-                      style={{ color: "var(--body-text)" }}
-                    >
-                      {course.phone}
-                    </a>
-                  </dd>
-                </div>
-              )}
-
-              {course.website && (
-                <div>
-                  <dt style={{ color: "var(--muted)" }}>Website</dt>
-                  <dd className="mt-1">
-                    <a
-                      href={course.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium"
-                      style={{ color: "var(--turf)" }}
-                    >
-                      Open website
-                    </a>
-                  </dd>
-                </div>
-              )}
+              <div>
+                <dt style={{ color: "var(--muted)" }}>Profile</dt>
+                <dd className="mt-1 font-medium" style={{ color: "var(--body-text)" }}>
+                  Public course feed
+                </dd>
+              </div>
             </dl>
           </div>
         </aside>

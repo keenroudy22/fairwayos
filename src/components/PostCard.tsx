@@ -105,12 +105,12 @@ export default function PostCard({
 
   return (
     <div
-      className={`card post-card ${config.cardClass} fade-up p-6`}
+      className={`card post-card ${config.cardClass} fade-up p-5 sm:p-6`}
       style={{
         animationDelay: `${animDelay * 0.05}s`,
       }}
     >
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3 flex-wrap">
           <span className={`type-badge ${config.badgeClass}`}>
             {config.label}
@@ -128,7 +128,7 @@ export default function PostCard({
         </div>
 
         <span
-          className="text-xs"
+          className="shrink-0 text-xs"
           style={{ color: "var(--muted)" }}
         >
           {timeAgo(post.created_at)}

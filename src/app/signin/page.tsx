@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -24,39 +25,66 @@ export default function SignInPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
+    <main className="min-h-screen" style={{ background: "var(--fairway-950)" }}>
       <Navbar />
 
-      <div className="max-w-md mx-auto px-4 py-10">
-        <h1 className="text-4xl font-bold mb-6">
-          Sign In
-        </h1>
+      <section className="app-shell-narrow page-section">
+        <div className="mx-auto max-w-xl">
+          <div className="mb-8">
+            <p className="page-kicker">Course access</p>
+            <h1
+              className="mt-3 font-display text-4xl font-bold"
+              style={{ color: "var(--sand)" }}
+            >
+              Sign In
+            </h1>
+            <p className="mt-3" style={{ color: "var(--body-text)" }}>
+              Access your course admin tools and publish updates to the feed.
+            </p>
+          </div>
 
-        <div className="space-y-4">
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            placeholder="Email"
-            className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
-          />
+          <div className="card p-6 sm:p-8">
+            <div className="space-y-5">
+              <div>
+                <label className="mb-2 block text-sm font-medium" style={{ color: "var(--sand)" }}>
+                  Email
+                </label>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  placeholder="you@course.com"
+                  className="form-input"
+                />
+              </div>
 
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-            className="w-full rounded-xl bg-black/20 border border-green-800 px-4 py-3"
-          />
+              <div>
+                <label className="mb-2 block text-sm font-medium" style={{ color: "var(--sand)" }}>
+                  Password
+                </label>
+                <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  placeholder="Enter your password"
+                  className="form-input"
+                />
+              </div>
 
-          <button
-            onClick={signIn}
-            className="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-semibold"
-          >
-            Sign In
-          </button>
+              <button onClick={signIn} className="btn-primary w-full">
+                Sign In
+              </button>
+            </div>
+
+            <p className="mt-6 text-sm" style={{ color: "var(--muted)" }}>
+              Need an account?{" "}
+              <Link href="/signup" style={{ color: "var(--turf)" }}>
+                Create one
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

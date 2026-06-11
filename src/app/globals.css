@@ -1,26 +1,200 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --fairway-950: #050f07;
+  --fairway-900: #0a1f0e;
+  --fairway-800: #0f2e14;
+  --fairway-700: #14532d;
+  --fairway-600: #166534;
+  --turf:        #22c55e;
+  --turf-light:  #4ade80;
+  --sand:        #f5f0e8;
+  --sand-dim:    #d4c9b0;
+  --slate:       #94a3b8;
+  --white:       #ffffff;
+  --body-text:   #cbd5e1;
+  --muted:       #64748b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--fairway-950);
+  color: var(--white);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Scorecard stripe — the signature design element */
+.scorecard-stripe {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(245,240,232,.15),
+    rgba(245,240,232,.35),
+    rgba(245,240,232,.15),
+    transparent
+  );
+}
+
+/* Post type left-border accent */
+.post-card {
+  border-left: 3px solid transparent;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0,0,0,.25);
+}
+.post-card.type-tee-time   { border-left-color: var(--turf); }
+.post-card.type-event      { border-left-color: #f59e0b; }
+.post-card.type-promotion  { border-left-color: #a78bfa; }
+.post-card.type-tournament { border-left-color: #f43f5e; }
+.post-card.type-general    { border-left-color: var(--slate); }
+
+/* Type badge pills */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.badge-tee-time   { background: rgba(34,197,94,0.15);  color: #4ade80; }
+.badge-event      { background: rgba(245,158,11,0.15); color: #fbbf24; }
+.badge-promotion  { background: rgba(167,139,250,0.15);color: #c4b5fd; }
+.badge-tournament { background: rgba(244,63,94,0.15);  color: #fb7185; }
+.badge-general    { background: rgba(148,163,184,0.15);color: #94a3b8; }
+
+/* Form inputs */
+.form-input {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-input::placeholder { color: var(--muted); }
+.form-input:focus {
+  border-color: var(--turf);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--turf),
+    var(--turf-light)
+  );
+  color: #041007;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  border-radius: 10px;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(34,197,94,.25);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--sand);
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 10px;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  border-color: var(--turf);
+  color: var(--turf);
+  background: rgba(34,197,94,.05);
+}
+
+.card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 18px rgba(0,0,0,.18);
+  transition:
+    border-color .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.card:hover {
+  border-color: rgba(34,197,94,.18);
+}
+
+/* Fade in animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  animation: fadeUp 0.4s ease both;
+}
+.fade-up-delay-1 { animation-delay: 0.05s; }
+.fade-up-delay-2 { animation-delay: 0.10s; }
+.fade-up-delay-3 { animation-delay: 0.15s; }
+.fade-up-delay-4 { animation-delay: 0.20s; }
+.fade-up-delay-5 { animation-delay: 0.25s; }
+
+/* Noise texture overlay for hero */
+.hero-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { animation: none; }
+  .post-card:hover { transform: none; }
+  .btn-primary:hover { transform: none; }
+  .btn-outline:hover { transform: none; }
 }

@@ -1,84 +1,112 @@
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
+import PostCard, { Post } from "@/components/PostCard";
+import Link from "next/link";
+
+export const revalidate = 30;
 
 export default async function FeedPage() {
-  const { data: posts } = await supabase
+  const { data: posts, error } = await supabase
     .from("posts")
-    .select(`
-      *,
-      courses (
-        id,
-        name
-      )
-    `)
+    .select("*, courses(id, name)")
     .order("created_at", { ascending: false });
 
+  const postList = (posts ?? []) as Post[];
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-green-950 via-green-900 to-black text-white">
+    <main
+      className="min-h-screen"
+      style={{ background: "var(--fairway-950)" }}
+    >
       <Navbar />
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold">
-            Feed
+      {/* Hero */}
+      <section
+        className="border-b"
+        style={{
+          borderColor: "rgba(255,255,255,0.07)",
+          background:
+            "radial-gradient(circle at top, rgba(34,197,94,0.10), transparent 60%)",
+        }}
+      >
+        <div className="max-w-5xl mx-auto px-6 py-12">
+          <h1
+            className="font-display text-5xl font-bold mb-3"
+            style={{ color: "var(--sand)" }}
+          >
+            Course Feed
           </h1>
 
-          <p className="text-green-300 mt-2">
-            Updates from courses you follow and courses near you.
+          <p
+            className="text-lg max-w-2xl"
+            style={{ color: "var(--body-text)" }}
+          >
+            Live updates, events, tournaments, promotions, and tee time alerts
+            from golf courses across FairwayOS.
           </p>
         </div>
+      </section>
 
-        <div className="flex gap-3 mb-8">
-          <button className="bg-white text-green-950 px-4 py-2 rounded-lg font-semibold">
-            Near Me
-          </button>
+      <div className="max-w-4xl mx-auto px-6 py-10">
+          {/* Main Feed */}
+          <div>
+            {error && (
+              <div
+                className="card p-6 text-center"
+                style={{ color: "#fb7185" }}
+              >
+                <p className="font-semibold mb-1">
+                  Could not load feed
+                </p>
 
-          <button className="border border-green-300 px-4 py-2 rounded-lg">
-            Following
-          </button>
-        </div>
-
-        <div className="space-y-5">
-          {posts?.map((post) => (
-            <div
-              key={post.id}
-              className="bg-green-950/40 border border-green-800 rounded-xl p-5"
-            >
-              <div className="text-green-300 text-sm">
-                {post.courses?.name ?? "Unknown Course"}
+                <p
+                  className="text-sm"
+                  style={{ color: "var(--muted)" }}
+                >
+                  {error.message}
+                </p>
               </div>
+            )}
 
-              <h2 className="text-2xl font-semibold mt-2 mb-3">
-                {post.title}
-              </h2>
+            {!error && postList.length === 0 && (
+              <div
+                className="card text-center py-16 px-6"
+                style={{ color: "var(--muted)" }}
+              >
+                <p className="text-4xl mb-4">⛳</p>
 
-              <p className="text-green-100 mb-4">
-                {post.description}
-              </p>
+                <p
+                  className="font-display text-xl font-semibold mb-2"
+                  style={{ color: "var(--white)" }}
+                >
+                  The feed is empty
+                </p>
 
-              <div className="flex gap-3">
-                {post.button_link && (
-                  <a
-                    href={post.button_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-green-600 px-4 py-2 rounded-lg font-semibold"
-                  >
-                    {post.button_text || "Learn More"}
-                  </a>
-                )}
+                <p className="text-sm mb-6">
+                  No courses have posted yet.
+                </p>
 
                 <Link
-                  href={`/course/${post.course_id}`}
-                  className="border border-green-300 px-4 py-2 rounded-lg"
+                  href="/register-course"
+                  className="btn-primary text-sm px-6 py-3"
                 >
-                  View Course
+                  Register Your Course
                 </Link>
               </div>
-            </div>
-          ))}
-        </div>
+            )}
+
+            {!error && postList.length > 0 && (
+              <div className="flex flex-col gap-4">
+                {postList.map((post, i) => (
+                  <PostCard
+                    key={post.id}
+                    post={post}
+                    animDelay={i}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
       </div>
     </main>
   );
